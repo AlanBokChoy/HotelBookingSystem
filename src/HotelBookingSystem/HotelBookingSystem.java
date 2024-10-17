@@ -12,6 +12,6 @@ public class HotelBookingSystem {
     
     public static void main(String[] args) {
         
-        LoginPage Login = new LoginPage();
+        LoginPage login = new LoginPage();
     }
 }

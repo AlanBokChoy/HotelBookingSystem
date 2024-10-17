@@ -32,13 +32,14 @@ public class LoginPage {
     private JButton registerButton;
     
     public LoginPage() {
+        frame = new JFrame("Login Page");
         components();
-        buttonComponents();
+        buttons();
         actionlisteners();
         frame();
     }
     
-    private void frame() {
+    private void frame() { 
         frame.setLayout(null);
         frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);
@@ -47,24 +48,28 @@ public class LoginPage {
     }
     
     private void components() {
-        frame = new JFrame("Login Page");
-        loginLabel = new JLabel("Login");
+        loginLabel = new JLabel("LOGIN");
         loginLabel.setFont(new Font(null, Font.BOLD, 45));
-        usernameLabel = new JLabel("Username: ");
-        passwordLabel = new JLabel("Password: ");
-        registerLabel = new JLabel("Don't have an account?");
-        messageLabel = new JLabel();
-        usernameField = new JTextField();
-        passwordField = new JPasswordField();
+        loginLabel.setBounds(180, 30, 150, 100);
         
-        loginLabel.setBounds(190, 30, 150, 100);
-        usernameLabel.setBounds(100, 160, 75, 35);
-        passwordLabel.setBounds(100, 200, 75, 35);
-        registerLabel.setBounds(125, 320, 200, 35);
-        messageLabel.setBounds(150, 250, 250, 35);
-        usernameField.setBounds(175, 160, 200, 35);
-        passwordField.setBounds(175, 200, 200, 35);
-
+        usernameLabel = new JLabel("Username: ");
+        usernameLabel.setBounds(75, 160, 75, 35);
+        
+        passwordLabel = new JLabel("Password: ");
+        passwordLabel.setBounds(77, 200, 75, 35);
+        
+        registerLabel = new JLabel("Don't have an account?");
+        registerLabel.setBounds(100, 320, 200, 35);
+        
+        messageLabel = new JLabel();
+        messageLabel.setBounds(150, 250, 200, 35);
+        
+        usernameField = new JTextField();
+        usernameField.setBounds(145, 160, 230, 35);
+        
+        passwordField = new JPasswordField();
+        passwordField.setBounds(145, 200, 230, 35);
+        
         frame.add(loginLabel);
         frame.add(usernameLabel);
         frame.add(passwordLabel);
@@ -74,14 +79,15 @@ public class LoginPage {
         frame.add(passwordField);
     }
     
-    private void buttonComponents() {
+    private void buttons() {
         loginButton = new JButton("Login");
-        resetButton = new JButton("Reset");
-        registerButton = new JButton("Register");
+        loginButton.setBounds(150, 260, 100, 35);
         
-        loginButton.setBounds(140, 260, 100, 35);
-        resetButton.setBounds(260, 260, 100, 35);
-        registerButton.setBounds(280, 320, 100, 35);
+        resetButton = new JButton("Reset");
+        resetButton.setBounds(270, 260, 100, 35);
+        
+        registerButton = new JButton("Register"); 
+        registerButton.setBounds(270, 320, 100, 35);
         
         frame.add(loginButton);
         frame.add(resetButton);
@@ -108,8 +114,8 @@ public class LoginPage {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Register button clicked");
-                
+                frame.setVisible(false);
+                RegisterPage register = new RegisterPage(); 
             }
         });
     }
