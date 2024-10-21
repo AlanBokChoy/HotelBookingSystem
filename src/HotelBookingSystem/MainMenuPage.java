@@ -106,8 +106,8 @@ public class MainMenuPage {
         informationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Information button clicked");
-                
+                frame.setVisible(false);
+                InformationPage information = new InformationPage();
             }
         });
     }

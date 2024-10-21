@@ -14,6 +14,7 @@ public class HotelBookingSystem {
         
         //LoginPage login = new LoginPage();
         //RegisterPage register = new RegisterPage();
-        MainMenuPage menu = new MainMenuPage();
+        //MainMenuPage menu = new MainMenuPage();
+        //InformationPage information = new InformationPage();
     }
 }
