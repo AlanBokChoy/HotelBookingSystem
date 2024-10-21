@@ -39,8 +39,9 @@ public class RegisterPage {
     public RegisterPage() {
         frame = new JFrame("Register Page");
         components();
-        button();
-        actionListener();
+        registerButton();
+        resetButton();
+        loginButton();
         frame();
     }
     
@@ -64,7 +65,7 @@ public class RegisterPage {
         passwordLabel.setBounds(77, 200, 75, 35);
         
         loginLabel = new JLabel("Have an account?");
-        loginLabel.setBounds(135, 440, 200, 35);
+        loginLabel.setBounds(140, 440, 200, 35);
         
         nameLabel = new JLabel("Name: ");
         nameLabel.setBounds(100, 240, 75, 35);
@@ -104,28 +105,25 @@ public class RegisterPage {
         frame.add(phonenumberField);
     }
     
-    private void button() {
+    private void registerButton() {
         registerButton = new JButton("Register"); 
         registerButton.setBounds(145, 380, 100, 35);
         
-        resetButton = new JButton("Reset");
-        resetButton.setBounds(275, 380, 100, 35);
-        
-        loginButton = new JButton("Login");
-        loginButton.setBounds(275, 440, 100, 35);
-        
         frame.add(registerButton);
-        frame.add(resetButton);
-        frame.add(loginButton);
-    }
-    
-    private void actionListener() {
+        
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Register button clicked"); 
             }
         });
+    }
+    
+    private void resetButton() {
+        resetButton = new JButton("Reset");
+        resetButton.setBounds(275, 380, 100, 35);
+        
+        frame.add(resetButton);
         
         resetButton.addActionListener(new ActionListener() {
             @Override
@@ -137,6 +135,13 @@ public class RegisterPage {
                 phonenumberField.setText("");
             }
         });
+    }
+    
+    private void loginButton() {
+        loginButton = new JButton("Login");
+        loginButton.setBounds(275, 440, 100, 35);
+        
+        frame.add(loginButton);
         
         loginButton.addActionListener(new ActionListener() {
             @Override

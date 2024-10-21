@@ -34,8 +34,9 @@ public class LoginPage {
     public LoginPage() {
         frame = new JFrame("Login Page");
         components();
-        buttons();
-        actionlisteners();
+        loginButton();
+        resetButton();
+        registerButton();
         frame();
     }
     
@@ -79,22 +80,12 @@ public class LoginPage {
         frame.add(passwordField);
     }
     
-    private void buttons() {
+    private void loginButton() {
         loginButton = new JButton("Login");
         loginButton.setBounds(150, 260, 100, 35);
         
-        resetButton = new JButton("Reset");
-        resetButton.setBounds(270, 260, 100, 35);
+        frame.add(loginButton); 
         
-        registerButton = new JButton("Register"); 
-        registerButton.setBounds(270, 320, 100, 35);
-        
-        frame.add(loginButton);
-        frame.add(resetButton);
-        frame.add(registerButton);
-    }
-    
-    private void actionlisteners() {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,7 +93,14 @@ public class LoginPage {
                 
             }
         });
-
+    }
+    
+    private void resetButton() {
+        resetButton = new JButton("Reset");
+        resetButton.setBounds(270, 260, 100, 35);
+        
+        frame.add(resetButton);
+        
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,7 +108,14 @@ public class LoginPage {
                 passwordField.setText("");
             }
         });
-
+    }
+    
+    private void registerButton() {
+        registerButton = new JButton("Register"); 
+        registerButton.setBounds(270, 320, 100, 35);
+        
+        frame.add(registerButton);
+        
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
