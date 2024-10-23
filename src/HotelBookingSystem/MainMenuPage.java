@@ -27,7 +27,7 @@ public class MainMenuPage {
     
     public MainMenuPage() {
         frame = new JFrame("Main Menu Page");
-        component();
+        components();
         createBookingButton();
         cancelBookingButton();
         checkBookingButton();
@@ -44,7 +44,7 @@ public class MainMenuPage {
         frame.setVisible(true);
     }
     
-    private void component() {
+    private void components() {
         mainMenuLabel = new JLabel("MAIN MENU");
         mainMenuLabel.setFont(new Font(null, Font.BOLD, 45));
         mainMenuLabel.setBounds(165, 30, 300, 100);
@@ -61,8 +61,8 @@ public class MainMenuPage {
         createBookingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Create Booking button clicked");
-                
+                frame.setVisible(false);
+                CreateBookingPage createBooking = new CreateBookingPage();
             }
         });
     }
@@ -76,8 +76,8 @@ public class MainMenuPage {
         cancelBookingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Cancel Booking button clicked");
-                
+                frame.setVisible(false);
+                CancelBookingPage cancelBooking = new CancelBookingPage();  
             }
         });
     }
@@ -91,8 +91,8 @@ public class MainMenuPage {
         checkBookingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Check Booking button clicked");
-                
+                frame.setVisible(false);
+                CheckBookingPage checkBooking = new CheckBookingPage(); 
             }
         });
     }

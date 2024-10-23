@@ -33,7 +33,7 @@ public class InformationPage {
     
     public InformationPage() {
         frame = new JFrame("Information Page");
-        component();
+        components();
         returnButton();
         frame();
     }
@@ -46,7 +46,7 @@ public class InformationPage {
         frame.setVisible(true);
     }
     
-    private void component() {
+    private void components() {
         hotelLabel = new JLabel("ROYAL OAK HOTEL");
         hotelLabel.setFont(new Font(null, Font.BOLD, 45));
         hotelLabel.setBounds(80, 30, 800, 100);
