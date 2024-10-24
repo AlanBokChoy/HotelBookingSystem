@@ -82,7 +82,7 @@ public class LoginPage {
     
     private void loginButton() {
         loginButton = new JButton("Login");
-        loginButton.setBounds(150, 260, 100, 35);
+        loginButton.setBounds(145, 260, 100, 35);
         
         frame.add(loginButton); 
         
@@ -97,7 +97,7 @@ public class LoginPage {
     
     private void resetButton() {
         resetButton = new JButton("Reset");
-        resetButton.setBounds(270, 260, 100, 35);
+        resetButton.setBounds(275, 260, 100, 35);
         
         frame.add(resetButton);
         

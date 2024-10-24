@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -18,7 +19,7 @@ import javax.swing.JTextField;
  * @author alanbokchoy
  */
 public class RegisterPage {
-    
+
     private JFrame frame;
     private JLabel registerLabel;
     private JLabel usernameLabel;
@@ -35,8 +36,19 @@ public class RegisterPage {
     private JButton registerButton;
     private JButton resetButton;
     private JButton loginButton;
-    
+
+    private String username;
+    private String password;
+    private String name;
+    private String email;
+    private String phone;
+
+    GuestDBManager GuestDB;
+
     public RegisterPage() {
+        GuestDB = new GuestDBManager();
+        GuestDB.createGuestDatabase();
+
         frame = new JFrame("Register Page");
         components();
         registerButton();
@@ -44,7 +56,7 @@ public class RegisterPage {
         loginButton();
         frame();
     }
-    
+
     private void frame() {
         frame.setLayout(null);
         frame.setSize(500, 600);
@@ -52,45 +64,45 @@ public class RegisterPage {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-    
+
     private void components() {
         registerLabel = new JLabel("REGISTER");
         registerLabel.setFont(new Font(null, Font.BOLD, 45));
         registerLabel.setBounds(145, 30, 300, 100);
-        
+
         usernameLabel = new JLabel("Username: ");
         usernameLabel.setBounds(75, 160, 75, 35);
-        
+
         passwordLabel = new JLabel("Password: ");
         passwordLabel.setBounds(77, 200, 75, 35);
-        
+
         loginLabel = new JLabel("Have an account?");
         loginLabel.setBounds(140, 440, 200, 35);
-        
+
         nameLabel = new JLabel("Name: ");
         nameLabel.setBounds(100, 240, 75, 35);
-        
+
         emailLabel = new JLabel("Email: ");
         emailLabel.setBounds(100, 280, 75, 35);
-        
+
         phonenumberLabel = new JLabel("Phone: ");
         phonenumberLabel.setBounds(95, 320, 75, 35);
-        
+
         usernameField = new JTextField();
         usernameField.setBounds(145, 160, 230, 35);
-        
+
         passwordField = new JPasswordField();
         passwordField.setBounds(145, 200, 230, 35);
-        
+
         nameField = new JTextField();
         nameField.setBounds(145, 240, 230, 35);
-        
+
         emailField = new JTextField();
         emailField.setBounds(145, 280, 230, 35);
-        
+
         phonenumberField = new JTextField();
         phonenumberField.setBounds(145, 320, 230, 35);
-        
+
         frame.add(registerLabel);
         frame.add(usernameLabel);
         frame.add(passwordLabel);
@@ -104,27 +116,44 @@ public class RegisterPage {
         frame.add(emailField);
         frame.add(phonenumberField);
     }
-    
+
     private void registerButton() {
-        registerButton = new JButton("Register"); 
+        registerButton = new JButton("Register");
         registerButton.setBounds(145, 380, 100, 35);
-        
+
         frame.add(registerButton);
-        
+
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Register button clicked"); 
+                username = usernameField.getText();
+                password = new String(passwordField.getPassword());
+                name = nameField.getText();
+                email = emailField.getText();
+                phone = phonenumberField.getText();
+
+                if (username.isEmpty() || password.isEmpty() || name.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Incorrect Details.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                } else if (!email.contains("@")) {
+                    JOptionPane.showMessageDialog(frame, "Incorrect Email.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                } else if (!phone.matches("\\d+")) {
+                    JOptionPane.showMessageDialog(frame, "Incorrect Phone Number.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    GuestDB.registerGuest(username, password, name, email, phone);
+
+                    frame.setVisible(false);
+                    MainMenuPage mainMenu = new MainMenuPage();
+                }
             }
         });
     }
-    
+
     private void resetButton() {
         resetButton = new JButton("Reset");
         resetButton.setBounds(275, 380, 100, 35);
-        
+
         frame.add(resetButton);
-        
+
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -136,13 +165,13 @@ public class RegisterPage {
             }
         });
     }
-    
+
     private void loginButton() {
         loginButton = new JButton("Login");
         loginButton.setBounds(275, 440, 100, 35);
-        
+
         frame.add(loginButton);
-        
+
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
