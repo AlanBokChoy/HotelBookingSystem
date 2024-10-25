@@ -37,18 +37,12 @@ public class RegisterPage {
     private JButton resetButton;
     private JButton loginButton;
 
-    private String username;
-    private String password;
-    private String name;
-    private String email;
-    private String phone;
-
-    GuestDBManager GuestDB;
+    private GuestDBManager guestDBManager;
 
     public RegisterPage() {
-        GuestDB = new GuestDBManager();
-        GuestDB.createGuestDatabase();
-
+        guestDBManager = new GuestDBManager();
+        guestDBManager.createGuestDatabase();
+        
         frame = new JFrame("Register Page");
         components();
         registerButton();
@@ -126,11 +120,11 @@ public class RegisterPage {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                username = usernameField.getText();
-                password = new String(passwordField.getPassword());
-                name = nameField.getText();
-                email = emailField.getText();
-                phone = phonenumberField.getText();
+                String username = usernameField.getText();
+                String password = new String(passwordField.getPassword());
+                String name = nameField.getText();
+                String email = emailField.getText();
+                String phone = phonenumberField.getText();
 
                 if (username.isEmpty() || password.isEmpty() || name.isEmpty() || email.isEmpty() || phone.isEmpty()) {
                     JOptionPane.showMessageDialog(frame, "Incorrect Details.", "Input Error", JOptionPane.ERROR_MESSAGE);
@@ -139,7 +133,7 @@ public class RegisterPage {
                 } else if (!phone.matches("\\d+")) {
                     JOptionPane.showMessageDialog(frame, "Incorrect Phone Number.", "Input Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    GuestDB.registerGuest(username, password, name, email, phone);
+                    guestDBManager.registerGuest(username, password, name, email, phone);
 
                     frame.setVisible(false);
                     MainMenuPage mainMenu = new MainMenuPage();

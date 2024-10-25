@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  *
@@ -67,7 +68,7 @@ public class GuestDBManager {
         String sql = "INSERT INTO GuestDB (username, password, name, email, phone) VALUES (?, ?, ?, ?, ?)";
 
         try {
-            Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD); 
+            Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
             pstmt.setString(2, password);
@@ -79,6 +80,20 @@ public class GuestDBManager {
             System.out.println("Guest registered successfully!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public boolean verifyCredentials(String username, String password) {
+        String sql = "SELECT * FROM GuestDB WHERE username = ? AND password = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
         }
     }
 }

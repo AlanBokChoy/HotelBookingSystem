@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -18,7 +19,7 @@ import javax.swing.JTextField;
  * @author alanbokchoy
  */
 public class LoginPage {
-    
+
     private JFrame frame;
     private JLabel loginLabel;
     private JLabel usernameLabel;
@@ -31,7 +32,10 @@ public class LoginPage {
     private JButton resetButton;
     private JButton registerButton;
     
+    private GuestDBManager guestDBManager;
+
     public LoginPage() {
+        guestDBManager = new GuestDBManager();
         frame = new JFrame("Login Page");
         components();
         loginButton();
@@ -39,38 +43,38 @@ public class LoginPage {
         registerButton();
         frame();
     }
-    
-    private void frame() { 
+
+    private void frame() {
         frame.setLayout(null);
         frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-    
+
     private void components() {
         loginLabel = new JLabel("LOGIN");
         loginLabel.setFont(new Font(null, Font.BOLD, 45));
         loginLabel.setBounds(180, 30, 150, 100);
-        
+
         usernameLabel = new JLabel("Username: ");
         usernameLabel.setBounds(75, 160, 75, 35);
-        
+
         passwordLabel = new JLabel("Password: ");
         passwordLabel.setBounds(77, 200, 75, 35);
-        
+
         registerLabel = new JLabel("Don't have an account?");
         registerLabel.setBounds(100, 320, 200, 35);
-        
+
         messageLabel = new JLabel();
         messageLabel.setBounds(150, 250, 200, 35);
-        
+
         usernameField = new JTextField();
         usernameField.setBounds(145, 160, 230, 35);
-        
+
         passwordField = new JPasswordField();
         passwordField.setBounds(145, 200, 230, 35);
-        
+
         frame.add(loginLabel);
         frame.add(usernameLabel);
         frame.add(passwordLabel);
@@ -79,28 +83,35 @@ public class LoginPage {
         frame.add(usernameField);
         frame.add(passwordField);
     }
-    
+
     private void loginButton() {
         loginButton = new JButton("Login");
         loginButton.setBounds(145, 260, 100, 35);
-        
-        frame.add(loginButton); 
-        
+
+        frame.add(loginButton);
+
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Login button clicked");
+                String username = usernameField.getText();
+                String password = new String(passwordField.getPassword());
                 
+                if (guestDBManager.verifyCredentials(username, password)) {
+                    frame.setVisible(false);
+                    MainMenuPage mainMenu = new MainMenuPage();
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Incorrect Details.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
-    
+
     private void resetButton() {
         resetButton = new JButton("Reset");
         resetButton.setBounds(275, 260, 100, 35);
-        
+
         frame.add(resetButton);
-        
+
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,18 +120,18 @@ public class LoginPage {
             }
         });
     }
-    
+
     private void registerButton() {
-        registerButton = new JButton("Register"); 
+        registerButton = new JButton("Register");
         registerButton.setBounds(270, 320, 100, 35);
-        
+
         frame.add(registerButton);
-        
+
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.setVisible(false);
-                RegisterPage register = new RegisterPage(); 
+                RegisterPage register = new RegisterPage();
             }
         });
     }
