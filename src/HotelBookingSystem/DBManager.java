@@ -150,7 +150,7 @@ public class DBManager {
             pstmt.setString(1, roomNumber);
             pstmt.setString(2, roomType);
             pstmt.setString(3, checkinDate);
-            pstmt.setString(4, checkinDate); 
+            pstmt.setString(4, checkinDate);
             pstmt.setString(5, checkoutDate);
             pstmt.setString(6, checkoutDate);
 
@@ -206,5 +206,47 @@ public class DBManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public String getGuestUsername(int guestId) {
+        String sql = "SELECT username FROM GuestDB WHERE id = ?";
+        try ( PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, guestId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("username");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public String getGuestName(int guestId) {
+        String sql = "SELECT name FROM GuestDB WHERE id = ?";
+        try ( PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, guestId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("name");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public String getGuestEmail(int guestId) {
+        String sql = "SELECT email FROM GuestDB WHERE id = ?";
+        try ( PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, guestId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("email");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }
