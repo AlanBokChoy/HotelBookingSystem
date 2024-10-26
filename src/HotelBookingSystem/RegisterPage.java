@@ -42,7 +42,6 @@ public class RegisterPage {
     public RegisterPage() {
         guestDBManager = new DBManager();
         guestDBManager.createGuestDatabase();
-        
         frame = new JFrame("Register Page");
         components();
         registerButton();

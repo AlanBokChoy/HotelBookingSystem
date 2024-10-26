@@ -43,8 +43,7 @@ public class CreateBookingPage {
     public CreateBookingPage() {
         roomDBManager = new DBManager();
         roomDBManager.createHotelRooms();
-
-        frame = new JFrame();
+        frame = new JFrame("Create Booking Page");
         components();
         roomType();
         roomNumber();
