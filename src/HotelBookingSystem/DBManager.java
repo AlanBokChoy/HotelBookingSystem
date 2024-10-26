@@ -141,17 +141,18 @@ public class DBManager {
         }
     }
 
-    public boolean isRoomAvailable(String roomNumber, String checkinDate, String checkoutDate) {
-        String sql = "SELECT * FROM RoomDB WHERE room_number = ? AND status = 'Booked' "
-                + "AND ((checkin_date <= ? AND checkout_date >= ?) "
-                + "OR (checkin_date <= ? AND checkout_date >= ?))";
+    public boolean isRoomAvailable(String roomNumber, String roomType, String checkinDate, String checkoutDate) {
+        String sql = "SELECT * FROM RoomDB WHERE room_number = ? AND room_type = ? AND status = 'Booked' "
+                + "AND ((checkin_date <= ? AND checkout_date > ?) "
+                + "OR (checkin_date < ? AND checkout_date >= ?))";
 
         try ( PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, roomNumber);
-            pstmt.setString(2, checkoutDate);
+            pstmt.setString(2, roomType);
             pstmt.setString(3, checkinDate);
-            pstmt.setString(4, checkoutDate);
-            pstmt.setString(5, checkinDate);
+            pstmt.setString(4, checkinDate); 
+            pstmt.setString(5, checkoutDate);
+            pstmt.setString(6, checkoutDate);
 
             ResultSet rs = pstmt.executeQuery();
             return !rs.next();
@@ -197,11 +198,11 @@ public class DBManager {
     }
 
     public void cancelRoomBooking(int bookingId) {
-        String sql = "DELETE FROM RoomDB WHERE id = ?";
+        String sql = "UPDATE RoomDB SET status = 'Available', guest_id = NULL WHERE id = ?";
         try ( PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, bookingId);
             pstmt.executeUpdate();
-            System.out.println("Booking cancelled successfully.");
+            System.out.println("Booking cancelled successfully, room is now available.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

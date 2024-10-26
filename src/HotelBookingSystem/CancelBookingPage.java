@@ -24,6 +24,7 @@ public class CancelBookingPage {
     private JLabel cancelBookingLabel;
     private JComboBox<String> bookingComboBox;
     private JButton cancelButton;
+    private JButton returnButton;
     
     private DBManager guestDBManager;
     
@@ -31,6 +32,8 @@ public class CancelBookingPage {
         guestDBManager = new DBManager();
         frame = new JFrame("Cancel Booking Page");
         components();
+        cancelButton();
+        returnButton();
         loadBookings();
         frame();
     }
@@ -49,13 +52,16 @@ public class CancelBookingPage {
         cancelBookingLabel.setBounds(95, 30, 800, 100);
         
         bookingComboBox = new JComboBox<>();
-        bookingComboBox.setBounds(150, 150, 300, 35);
-
-        cancelButton = new JButton("Cancel Booking");
-        cancelButton.setBounds(200, 250, 200, 35);
+        bookingComboBox.setBounds(150, 150, 300, 100);
 
         frame.add(cancelBookingLabel);
         frame.add(bookingComboBox);
+    }
+    
+    private void cancelButton() {
+        cancelButton = new JButton("Cancel Booking");
+        cancelButton.setBounds(200, 250, 200, 40);
+        
         frame.add(cancelButton);
         
         cancelButton.addActionListener(new ActionListener() {
@@ -70,10 +76,28 @@ public class CancelBookingPage {
                 } else {
                     JOptionPane.showMessageDialog(frame, "Please select a booking to cancel.", "Input Error", JOptionPane.ERROR_MESSAGE);
                 }
+                
+                frame.setVisible(false);
+                MainMenuPage mainMenu = new MainMenuPage();
             }
         });
     }
-
+    
+    private void returnButton() {
+        returnButton = new JButton("Return");
+        returnButton.setBounds(440, 500, 120, 35);
+        
+        frame.add(returnButton); 
+        
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+                MainMenuPage mainMenu = new MainMenuPage();   
+            }
+        });
+    }
+    
     private void loadBookings() {
         bookingComboBox.removeAllItems();
         int guestId = UserSession.getGuestId();

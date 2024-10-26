@@ -36,6 +36,7 @@ public class CreateBookingPage {
     private JTextField checkinField;
     private JTextField checkoutField;
     private JButton confirmButton;
+    private JButton returnButton;
 
     private DBManager roomDBManager;
     private DBManager guestDBManager;
@@ -50,6 +51,7 @@ public class CreateBookingPage {
         checkinDate();
         checkoutDate();
         confirmButton();
+        returnButton();
         frame();
     }
 
@@ -138,7 +140,7 @@ public class CreateBookingPage {
     private void confirmButton() {
         confirmButton = new JButton("Confirm");
         confirmButton.setBounds(225, 430, 150, 40);
-
+        
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -158,14 +160,15 @@ public class CreateBookingPage {
                     return;
                 }
 
-                boolean isAvailable = roomDBManager.isRoomAvailable(selectedRoomNumber, checkinDate, checkoutDate);
+                boolean isAvailable = roomDBManager.isRoomAvailable(selectedRoomNumber, selectedRoomType, checkinDate, checkoutDate);
                 if (!isAvailable) {
-                    JOptionPane.showMessageDialog(frame, "Sorry Room Not Available.");
+                    JOptionPane.showMessageDialog(frame, "Room not available for the selected dates!");
                     return;
                 }
 
                 int guestId = UserSession.getGuestId();
                 roomDBManager.addRoom(selectedRoomType, selectedRoomNumber, getRoomPrice(selectedRoomType), checkinDate, checkoutDate, "Booked", guestId);
+                JOptionPane.showMessageDialog(frame, "Room booked successfully!");
 
                 frame.setVisible(false);
                 MainMenuPage mainMenu = new MainMenuPage();
@@ -173,6 +176,21 @@ public class CreateBookingPage {
         });
 
         frame.add(confirmButton);
+    }
+
+    private void returnButton() {
+        returnButton = new JButton("Return");
+        returnButton.setBounds(440, 500, 120, 35);
+
+        frame.add(returnButton);
+
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+                MainMenuPage mainMenu = new MainMenuPage();
+            }
+        });
     }
 
     private String getRoomPrice(String roomType) {
@@ -196,7 +214,7 @@ public class CreateBookingPage {
             Date checkout = sdf.parse(checkoutDate);
 
             if (checkout.before(checkin)) {
-                return "Invalid Dates Try Again.";
+                return "Invalid Date Try Again.";
             }
         } catch (ParseException ex) {
             return "Please enter valid dates in the format DD/MM/YYYY.";
