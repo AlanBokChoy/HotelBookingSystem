@@ -17,19 +17,19 @@ import javax.swing.JLabel;
  */
 public class InformationPage {
     
-    JFrame frame;
-    JLabel hotelLabel;
-    JLabel informationLabel1;
-    JLabel informationLabel2;
-    JLabel informationLabel3;
-    JLabel informationLabel4;
-    JLabel informationLabel5;
-    JLabel informationLabel6;
-    JLabel informationLabel7;
-    JLabel hotelPhonenumberLabel;
-    JLabel hotelEmailLabel;
-    JLabel hotelAddressLabel;
-    JButton returnButton;
+    private JFrame frame;
+    private JLabel hotelLabel;
+    private JLabel informationLabel1;
+    private JLabel informationLabel2;
+    private JLabel informationLabel3;
+    private JLabel informationLabel4;
+    private JLabel informationLabel5;
+    private JLabel informationLabel6;
+    private JLabel informationLabel7;
+    private JLabel hotelPhonenumberLabel;
+    private JLabel hotelEmailLabel;
+    private JLabel hotelAddressLabel;
+    private JButton returnButton;
     
     public InformationPage() {
         frame = new JFrame("Information Page");

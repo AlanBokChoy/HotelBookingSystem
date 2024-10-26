@@ -31,11 +31,11 @@ public class LoginPage {
     private JButton loginButton;
     private JButton resetButton;
     private JButton registerButton;
-    
-    private GuestDBManager guestDBManager;
+
+    private DBManager guestDBManager;
 
     public LoginPage() {
-        guestDBManager = new GuestDBManager();
+        guestDBManager = new DBManager();
         frame = new JFrame("Login Page");
         components();
         loginButton();
@@ -95,8 +95,12 @@ public class LoginPage {
             public void actionPerformed(ActionEvent e) {
                 String username = usernameField.getText();
                 String password = new String(passwordField.getPassword());
-                
+
                 if (guestDBManager.verifyCredentials(username, password)) {
+                    int guestId = guestDBManager.getGuestId(username);
+                    UserSession.setUsername(username);
+                    UserSession.setGuestId(guestId);
+
                     frame.setVisible(false);
                     MainMenuPage mainMenu = new MainMenuPage();
                 } else {

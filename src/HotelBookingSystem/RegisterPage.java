@@ -37,10 +37,10 @@ public class RegisterPage {
     private JButton resetButton;
     private JButton loginButton;
 
-    private GuestDBManager guestDBManager;
+    private DBManager guestDBManager;
 
     public RegisterPage() {
-        guestDBManager = new GuestDBManager();
+        guestDBManager = new DBManager();
         guestDBManager.createGuestDatabase();
         
         frame = new JFrame("Register Page");
