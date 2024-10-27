@@ -30,25 +30,24 @@ public class CheckBookingPage {
     // Constructor to initialize the check booking page
     public CheckBookingPage() {
         dbManager = new DBManager();
-        frame();
-    }
-
-    // Method to setup the frame properties
-    public void frame() {
-        frame = new JFrame();
-        frame.setLayout(null);
-        frame.setSize(600, 600);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        components();
+        setupFrame();
+        initializeComponents();
         displayUserDetails();
         displayBookingDetails();
         frame.setVisible(true);
     }
 
+    // Method to setup the frame properties
+    private void setupFrame() {
+        frame = new JFrame("Check Booking Page");
+        frame.setLayout(null);
+        frame.setSize(600, 600);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
     // Method to initialize and add components to the frame
-    public void components() {
+    private void initializeComponents() {
         checkBookingLabel = new JLabel("CHECK BOOKING");
         checkBookingLabel.setFont(new Font(null, Font.BOLD, 45));
         checkBookingLabel.setBounds(100, 30, 800, 100);
@@ -71,9 +70,9 @@ public class CheckBookingPage {
     }
 
     // Method to setup the return button and its action
-    public void returnButton() {
+    private void returnButton() {
         returnButton = new JButton("Return");
-        returnButton.setBounds(440, 500, 120, 35);
+        returnButton.setBounds(440, 495, 120, 45);
 
         frame.add(returnButton);
 
@@ -81,13 +80,13 @@ public class CheckBookingPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.setVisible(false);
-                MainMenuPage mainMenu = new MainMenuPage();
+                new MainMenuPage();
             }
         });
     }
 
     // Method to display user details (name and email)
-    public void displayUserDetails() {
+    private void displayUserDetails() {
         int guestId = UserSession.getGuestId();
         String name = dbManager.getGuestName(guestId);
         String email = dbManager.getGuestEmail(guestId);
@@ -97,7 +96,7 @@ public class CheckBookingPage {
     }
 
     // Method to display booking details for the user
-    public void displayBookingDetails() {
+    private void displayBookingDetails() {
         int guestId = UserSession.getGuestId();
         List<String> bookings = dbManager.getGuestBookings(guestId);
 

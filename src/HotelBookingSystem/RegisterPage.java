@@ -48,23 +48,22 @@ public class RegisterPage {
     public RegisterPage(DBManager dbManager) {
         registerValidate = new RegisterValidate(dbManager);
         dbManager.createGuestDatabase();
-        frame();
+        setupFrame();
+        initializeComponents();
+        frame.setVisible(true);
     }
 
     // Method to setup the frame properties
-    private void frame() {
+    private void setupFrame() {
         frame = new JFrame("Register Page");
         frame.setLayout(null);
         frame.setSize(500, 600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        components();
-        frame.setVisible(true);
     }
 
     // Method to initialize and add components to the frame
-    private void components() {
+    private void initializeComponents() {
         registerLabel = new JLabel("REGISTER");
         registerLabel.setFont(new Font(null, Font.BOLD, 45));
         registerLabel.setBounds(145, 30, 300, 100);
@@ -137,6 +136,7 @@ public class RegisterPage {
                 String phone = phonenumberField.getText();
 
                 if (registerValidate.registerUser(username, password, name, email, phone)) {
+                    JOptionPane.showMessageDialog(frame, "Welcome to Royal Oak Hotel!");
                     frame.setVisible(false);
                     MainMenuPage mainMenu = new MainMenuPage();
                 } else {

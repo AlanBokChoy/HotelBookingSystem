@@ -44,23 +44,26 @@ public class CreateBookingPage {
     public CreateBookingPage() {
         dbManager = new DBManager();
         dbManager.createHotelRooms();
-        frame();
+        setupFrame();
+        initializeComponents();
+        roomType();
+        roomNumber();
+        checkinDate();
+        checkoutDate();
+        frame.setVisible(true);
     }
 
     // Method to setup the frame properties
-    public void frame() {
+    private void setupFrame() {
         frame = new JFrame("Create Booking Page");
         frame.setLayout(null);
         frame.setSize(600, 600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        components();
-        frame.setVisible(true);
     }
 
     // Method to initialize and add components to the frame
-    public void components() {
+    private void initializeComponents() {
         createBookingLabel = new JLabel("CREATE BOOKING");
         createBookingLabel.setFont(new Font(null, Font.BOLD, 45));
         createBookingLabel.setBounds(95, 30, 800, 100);
@@ -69,6 +72,17 @@ public class CreateBookingPage {
         roomPriceLabel.setFont(new Font(null, Font.BOLD, 16));
         roomPriceLabel.setBounds(250, 125, 250, 60);
 
+        roomPrice();
+
+        frame.add(createBookingLabel);
+        frame.add(roomPriceLabel);
+
+        confirmButton();
+        returnButton();
+    }
+
+    // Method to display the room prices
+    private void roomPrice() {
         standardRoomPrice = new JLabel("Standard Room - $100 per night");
         standardRoomPrice.setBounds(195, 155, 250, 60);
 
@@ -78,22 +92,13 @@ public class CreateBookingPage {
         oakspecialRoomPrice = new JLabel("OakSpecial Room - $200 per night");
         oakspecialRoomPrice.setBounds(195, 195, 250, 60);
 
-        frame.add(createBookingLabel);
-        frame.add(roomPriceLabel);
         frame.add(standardRoomPrice);
         frame.add(deluxeRoomPrice);
         frame.add(oakspecialRoomPrice);
-
-        roomType();
-        roomNumber();
-        checkinDate();
-        checkoutDate();
-        confirmButton();
-        returnButton();
     }
 
     // Method to set up room type selection dropdown
-    public void roomType() {
+    private void roomType() {
         roomTypeBox = new JComboBox();
         roomTypeBox.setBounds(95, 260, 200, 60);
 
@@ -106,7 +111,7 @@ public class CreateBookingPage {
     }
 
     // Method to set up room number selection dropdown
-    public void roomNumber() {
+    private void roomNumber() {
         roomNumberBox = new JComboBox();
         roomNumberBox.setBounds(305, 260, 200, 60);
 
@@ -120,7 +125,7 @@ public class CreateBookingPage {
     }
 
     // Method to set up check-in date input
-    public void checkinDate() {
+    private void checkinDate() {
         checkinLabel = new JLabel("Checkin Date:");
         checkinLabel.setFont(new Font(null, Font.BOLD, 13));
         checkinLabel.setBounds(150, 315, 250, 60);
@@ -133,7 +138,7 @@ public class CreateBookingPage {
     }
 
     // Method to set up check-out date input
-    public void checkoutDate() {
+    private void checkoutDate() {
         checkoutLabel = new JLabel("Checkout Date:");
         checkoutLabel.setFont(new Font(null, Font.BOLD, 13));
         checkoutLabel.setBounds(325, 315, 250, 60);
@@ -146,7 +151,7 @@ public class CreateBookingPage {
     }
 
     // Method to setup the confirm button and its action
-    public void confirmButton() {
+    private void confirmButton() {
         confirmButton = new JButton("Confirm");
         confirmButton.setBounds(225, 430, 150, 40);
 
@@ -161,9 +166,9 @@ public class CreateBookingPage {
     }
 
     // Method to setup the return button and its action
-    public void returnButton() {
+    private void returnButton() {
         returnButton = new JButton("Return");
-        returnButton.setBounds(440, 500, 120, 35);
+        returnButton.setBounds(440, 495, 120, 45);
 
         frame.add(returnButton);
 
@@ -177,7 +182,7 @@ public class CreateBookingPage {
     }
 
     // Method to get the price of a room based on its type
-    public String getRoomPrice(String roomType) {
+    private String getRoomPrice(String roomType) {
         switch (roomType) {
             case "Standard Room":
                 return "$100";
@@ -191,7 +196,7 @@ public class CreateBookingPage {
     }
 
     // Method to validate the check-in and check-out dates
-    public String validateDates(String checkinDate, String checkoutDate) {
+    private String validateDates(String checkinDate, String checkoutDate) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             sdf.setLenient(false);
@@ -208,7 +213,7 @@ public class CreateBookingPage {
     }
 
     // Method to validate room booking
-    public void handleBooking() {
+    private void handleBooking() {
         String selectedRoomType = (String) roomTypeBox.getSelectedItem();
         String selectedRoomNumber = (String) roomNumberBox.getSelectedItem();
         String checkinDate = checkinField.getText();
@@ -240,6 +245,6 @@ public class CreateBookingPage {
         JOptionPane.showMessageDialog(frame, "Room booked successfully!");
 
         frame.setVisible(false);
-        MainMenuPage mainMenu = new MainMenuPage();
+        new MainMenuPage();
     }
 }

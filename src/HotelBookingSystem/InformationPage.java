@@ -34,23 +34,22 @@ public class InformationPage {
 
     // Constructor to initialize the information page
     public InformationPage() {
-        frame();
+        setupFrame();
+        initializeComponents();
+        frame.setVisible(true);
     }
 
     // Method to setup the frame properties
-    private void frame() {
+    private void setupFrame() {
         frame = new JFrame("Information Page");
         frame.setLayout(null);
         frame.setSize(600, 600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        components();
-        frame.setVisible(true);
     }
 
     // Method to initialize and add components to the frame
-    private void components() {
+    private void initializeComponents() {
         hotelLabel = new JLabel("ROYAL OAK HOTEL");
         hotelLabel.setFont(new Font(null, Font.BOLD, 45));
         hotelLabel.setBounds(80, 30, 800, 100);

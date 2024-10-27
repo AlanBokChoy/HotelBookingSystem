@@ -18,44 +18,47 @@ import javax.swing.JLabel;
 // Class represents the main menu interface of the application
 public class MainMenuPage {
 
-    private JFrame frame;
-    private JLabel mainMenuLabel;
-    private JButton createBookingButton;
-    private JButton cancelBookingButton;
-    private JButton checkBookingButton;
-    private JButton informationButton;
-    private JButton signoutButton;
+    public JFrame frame;
+    public JLabel mainMenuLabel;
+    public JButton createBookingButton;
+    public JButton cancelBookingButton;
+    public JButton checkBookingButton;
+    public JButton informationButton;
+    public JButton signoutButton;
 
     // Constructor to initialize the main menu page
     public MainMenuPage() {
-        frame();
+        setupFrame();
+        initializeComponents();
+        frame.setVisible(true);
     }
 
     // Method to setup the frame properties
-    private void frame() {
+    private void setupFrame() {
         frame = new JFrame("Main Menu Page");
         frame.setLayout(null);
         frame.setSize(600, 600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        components();
-        frame.setVisible(true);
     }
 
     // Method to initialize and add components to the frame
-    private void components() {
+    private void initializeComponents() {
         mainMenuLabel = new JLabel("MAIN MENU");
         mainMenuLabel.setFont(new Font(null, Font.BOLD, 45));
         mainMenuLabel.setBounds(165, 30, 300, 100);
 
         frame.add(mainMenuLabel);
 
-        createButtons();
+        createBookingButton();
+        cancelBookingButton();
+        checkBookingButton();
+        informationButton();
+        signoutButton();
     }
 
-    // Method to create all buttons and add them to the frame
-    private void createButtons() {
+    // Method to setup the create booking button and its action
+    private void createBookingButton() {
         createBookingButton = new JButton("Create Booking");
         createBookingButton.setBounds(185, 150, 230, 50);
 
@@ -68,7 +71,10 @@ public class MainMenuPage {
                 CreateBookingPage createBooking = new CreateBookingPage();
             }
         });
+    }
 
+    // Method to setup the cancel booking button and its action
+    private void cancelBookingButton() {
         cancelBookingButton = new JButton("Cancel Booking");
         cancelBookingButton.setBounds(185, 220, 230, 50);
 
@@ -81,7 +87,10 @@ public class MainMenuPage {
                 CancelBookingPage cancelBooking = new CancelBookingPage();
             }
         });
+    }
 
+    // Method to setup the check button and its action
+    private void checkBookingButton() {
         checkBookingButton = new JButton("Check Booking");
         checkBookingButton.setBounds(185, 290, 230, 50);
 
@@ -94,7 +103,10 @@ public class MainMenuPage {
                 CheckBookingPage checkBooking = new CheckBookingPage();
             }
         });
+    }
 
+    // Method to setup the information button and its action
+    private void informationButton() {
         informationButton = new JButton("Information");
         informationButton.setBounds(185, 360, 230, 50);
 
@@ -107,7 +119,10 @@ public class MainMenuPage {
                 InformationPage information = new InformationPage();
             }
         });
+    }
 
+    // Method to setup the signout button and its action
+    private void signoutButton() {
         signoutButton = new JButton("Sign Out");
         signoutButton.setBounds(185, 430, 230, 50);
 

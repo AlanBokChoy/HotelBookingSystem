@@ -37,23 +37,22 @@ public class LoginPage {
     // Constructor to initialize the login page
     public LoginPage() {
         dbManager = new DBManager();
-        frame();
+        setupFrame();
+        initializeComponents();
+        frame.setVisible(true);
     }
 
     // Method to setup the frame properties
-    private void frame() {
+    private void setupFrame() {
         frame = new JFrame("Login Page");
         frame.setLayout(null);
         frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        components();
-        frame.setVisible(true);
     }
 
     // Method to initialize and add components to the frame
-    private void components() {
+    private void initializeComponents() {
         loginLabel = new JLabel("LOGIN");
         loginLabel.setFont(new Font(null, Font.BOLD, 45));
         loginLabel.setBounds(180, 30, 150, 100);
