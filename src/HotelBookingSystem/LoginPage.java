@@ -18,6 +18,8 @@ import javax.swing.JTextField;
  *
  * @author alanbokchoy
  */
+
+// Class represents the login page of the application
 public class LoginPage {
 
     private JFrame frame;
@@ -31,9 +33,9 @@ public class LoginPage {
     private JButton loginButton;
     private JButton resetButton;
     private JButton registerButton;
-
     private DBManager guestDBManager;
 
+    // Constructor to initialize the login page
     public LoginPage() {
         guestDBManager = new DBManager();
         frame = new JFrame("Login Page");
@@ -44,6 +46,7 @@ public class LoginPage {
         frame();
     }
 
+    // Method to setup the main frame properties
     private void frame() {
         frame.setLayout(null);
         frame.setSize(500, 500);
@@ -52,6 +55,7 @@ public class LoginPage {
         frame.setVisible(true);
     }
 
+    // Method to initialize and add components to the frame
     private void components() {
         loginLabel = new JLabel("LOGIN");
         loginLabel.setFont(new Font(null, Font.BOLD, 45));
@@ -84,6 +88,7 @@ public class LoginPage {
         frame.add(passwordField);
     }
 
+    // Method to setup the login button and its action
     private void loginButton() {
         loginButton = new JButton("Login");
         loginButton.setBounds(145, 260, 100, 35);
@@ -110,6 +115,7 @@ public class LoginPage {
         });
     }
 
+    // Method to setup the reset button and its action
     private void resetButton() {
         resetButton = new JButton("Reset");
         resetButton.setBounds(275, 260, 100, 35);
@@ -125,6 +131,7 @@ public class LoginPage {
         });
     }
 
+    // Method to setup the register button and its action
     private void registerButton() {
         registerButton = new JButton("Register");
         registerButton.setBounds(270, 320, 100, 35);

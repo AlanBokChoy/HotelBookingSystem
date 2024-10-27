@@ -16,22 +16,26 @@ import java.util.List;
  *
  * @author alanbokchoy
  */
+
+// Class represents the database management of the application
 public class DBManager {
 
     private static final String USERNAME = "guest";
     private static final String PASSWORD = "guest";
     private static final String URL = "jdbc:derby://localhost:1527/GuestDB;create=true";
+    private Connection conn;
 
-    private static Connection conn;
-
+    // Constructor that establishes a connection to the database upon creation
     public DBManager() {
         establishConnection();
     }
 
+    // Getter method to access the connection
     public Connection getConnection() {
         return this.conn;
     }
 
+    // Method to establish a connection to the database
     public void establishConnection() {
         try {
             conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -41,10 +45,12 @@ public class DBManager {
         }
     }
 
+    // Method to create the Guest database table if it doesn't already exist
     public void createGuestDatabase() {
         try {
             conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             if (conn != null) {
+                // Check if the table already exists
                 String checkTableSql = "SELECT * FROM GuestDB";
                 try {
                     conn.createStatement().execute(checkTableSql);
@@ -66,6 +72,7 @@ public class DBManager {
         }
     }
 
+    // Method to register a new guest
     public void registerGuest(String username, String password, String name, String email, String phone) {
         String sql = "INSERT INTO GuestDB (username, password, name, email, phone) VALUES (?, ?, ?, ?, ?)";
 
@@ -85,6 +92,7 @@ public class DBManager {
         }
     }
 
+    // Method to verify guest credentials
     public boolean verifyCredentials(String username, String password) {
         String sql = "SELECT * FROM GuestDB WHERE username = ? AND password = ?";
         try {
@@ -99,6 +107,7 @@ public class DBManager {
         }
     }
 
+    // Method to create the Room database table if it doesn't already exist
     public void createHotelRooms() {
         try {
             if (conn != null) {
@@ -125,6 +134,7 @@ public class DBManager {
         }
     }
 
+    // Method to add a room to the database
     public void addRoom(String roomType, String roomNumber, String roomPrice, String checkinDate, String checkoutDate, String status, int guestId) {
         String sql = "INSERT INTO RoomDB (room_type, room_number, room_price, checkin_date, checkout_date, status, guest_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try ( PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -141,6 +151,7 @@ public class DBManager {
         }
     }
 
+    // Method to check if a room is available
     public boolean isRoomAvailable(String roomNumber, String roomType, String checkinDate, String checkoutDate) {
         String sql = "SELECT * FROM RoomDB WHERE room_number = ? AND room_type = ? AND status = 'Booked' "
                 + "AND ((checkin_date <= ? AND checkout_date > ?) "
@@ -162,6 +173,7 @@ public class DBManager {
         }
     }
 
+    // Method to get the guestID based on the username
     public int getGuestId(String username) {
         String sql = "SELECT id FROM GuestDB WHERE username = ?";
         try ( PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -176,6 +188,7 @@ public class DBManager {
         return -1;
     }
 
+    // Method to retrieve guest bookings
     public List<String> getGuestBookings(int guestId) {
         List<String> bookings = new ArrayList<>();
         String sql = "SELECT id, room_type, room_number, checkin_date, checkout_date FROM RoomDB WHERE guest_id = ?";
@@ -197,6 +210,7 @@ public class DBManager {
         return bookings;
     }
 
+    // Method to cancel a room booking
     public void cancelRoomBooking(int bookingId) {
         String sql = "UPDATE RoomDB SET status = 'Available', guest_id = NULL WHERE id = ?";
         try ( PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -208,6 +222,7 @@ public class DBManager {
         }
     }
 
+    // Method to get the guest email based on guestID
     public String getGuestUsername(int guestId) {
         String sql = "SELECT username FROM GuestDB WHERE id = ?";
         try ( PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -222,6 +237,7 @@ public class DBManager {
         return null;
     }
 
+    // Method to get the guest name based on guestID
     public String getGuestName(int guestId) {
         String sql = "SELECT name FROM GuestDB WHERE id = ?";
         try ( PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -236,6 +252,7 @@ public class DBManager {
         return null;
     }
 
+    // Method to get the guest email based on guestID
     public String getGuestEmail(int guestId) {
         String sql = "SELECT email FROM GuestDB WHERE id = ?";
         try ( PreparedStatement pstmt = conn.prepareStatement(sql)) {

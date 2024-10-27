@@ -17,16 +17,18 @@ import javax.swing.JTextArea;
  *
  * @author alanbokchoy
  */
+
+// Class represents the check booking of the application
 public class CheckBookingPage {
 
-    JFrame frame;
-    JLabel checkBookingLabel;
-    JLabel userDetailsLabel;
-    JTextArea bookingDetailsArea;
-    JButton returnButton;
-
+    private JFrame frame;
+    private JLabel checkBookingLabel;
+    private JLabel userDetailsLabel;
+    private JTextArea bookingDetailsArea;
+    private JButton returnButton;
     private DBManager dbManager;
 
+    // Constructor to initialize the check booking page
     public CheckBookingPage() {
         dbManager = new DBManager();
         frame = new JFrame();
@@ -36,7 +38,8 @@ public class CheckBookingPage {
         displayUserDetails();
         displayBookingDetails();
     }
-
+    
+    // Method to setup the main frame properties
     private void frame() {
         frame.setLayout(null);
         frame.setSize(600, 600);
@@ -45,6 +48,7 @@ public class CheckBookingPage {
         frame.setVisible(true);
     }
 
+    // Method to initialize and add components to the frame
     private void components() {
         checkBookingLabel = new JLabel("CHECK BOOKING");
         checkBookingLabel.setFont(new Font(null, Font.BOLD, 45));
@@ -53,46 +57,49 @@ public class CheckBookingPage {
         userDetailsLabel = new JLabel();
         userDetailsLabel.setFont(new Font(null, Font.PLAIN, 16));
         userDetailsLabel.setBounds(50, 120, 500, 60);
-        
+
         bookingDetailsArea = new JTextArea();
         bookingDetailsArea.setEditable(false);
         bookingDetailsArea.setBounds(50, 180, 500, 300);
         bookingDetailsArea.setLineWrap(true);
         bookingDetailsArea.setWrapStyleWord(true);
-        
+
         frame.add(checkBookingLabel);
         frame.add(userDetailsLabel);
         frame.add(bookingDetailsArea);
     }
 
+    // Method to setup the return button and its action
     private void returnButton() {
         returnButton = new JButton("Return");
         returnButton.setBounds(440, 500, 120, 35);
-        
-        frame.add(returnButton); 
+
+        frame.add(returnButton);
 
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.setVisible(false);
-                MainMenuPage mainMenu = new MainMenuPage();   
+                MainMenuPage mainMenu = new MainMenuPage();
             }
         });
     }
 
+    // Method to display user details (name and email)
     private void displayUserDetails() {
-        int guestId = UserSession.getGuestId(); 
-        String username = dbManager.getGuestUsername(guestId); 
-        String name = dbManager.getGuestName(guestId); 
-        String email = dbManager.getGuestEmail(guestId); 
+        int guestId = UserSession.getGuestId();
+        String username = dbManager.getGuestUsername(guestId);
+        String name = dbManager.getGuestName(guestId);
+        String email = dbManager.getGuestEmail(guestId);
 
         String userDetails = String.format("                   Name: %s       \nEmail: %s", name, email);
         userDetailsLabel.setText(userDetails);
     }
 
+    // Method to display booking details for the user
     private void displayBookingDetails() {
-        int guestId = UserSession.getGuestId(); 
-        List<String> bookings = dbManager.getGuestBookings(guestId); 
+        int guestId = UserSession.getGuestId();
+        List<String> bookings = dbManager.getGuestBookings(guestId);
 
         if (bookings.isEmpty()) {
             bookingDetailsArea.setText("No bookings found for this user.");

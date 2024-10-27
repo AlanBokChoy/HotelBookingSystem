@@ -18,6 +18,8 @@ import javax.swing.JTextField;
  *
  * @author alanbokchoy
  */
+
+// Class represents the register page of the application
 public class RegisterPage {
 
     private JFrame frame;
@@ -36,11 +38,16 @@ public class RegisterPage {
     private JButton registerButton;
     private JButton resetButton;
     private JButton loginButton;
+    private RegisterValidate registerValidate;
 
-    private DBManager guestDBManager;
-
+    // Default constructor
     public RegisterPage() {
-        guestDBManager = new DBManager();
+        this(new DBManager());
+    }
+
+    // Constructor to initialize the register page
+    public RegisterPage(DBManager guestDBManager) {
+        registerValidate = new RegisterValidate(guestDBManager);
         guestDBManager.createGuestDatabase();
         frame = new JFrame("Register Page");
         components();
@@ -50,6 +57,7 @@ public class RegisterPage {
         frame();
     }
 
+    // Method to setup the main frame properties
     private void frame() {
         frame.setLayout(null);
         frame.setSize(500, 600);
@@ -58,6 +66,7 @@ public class RegisterPage {
         frame.setVisible(true);
     }
 
+    // Method to initialize and add components to the frame
     private void components() {
         registerLabel = new JLabel("REGISTER");
         registerLabel.setFont(new Font(null, Font.BOLD, 45));
@@ -110,6 +119,7 @@ public class RegisterPage {
         frame.add(phonenumberField);
     }
 
+    // Method to setup the register button and its action
     private void registerButton() {
         registerButton = new JButton("Register");
         registerButton.setBounds(145, 380, 100, 35);
@@ -125,22 +135,17 @@ public class RegisterPage {
                 String email = emailField.getText();
                 String phone = phonenumberField.getText();
 
-                if (username.isEmpty() || password.isEmpty() || name.isEmpty() || email.isEmpty() || phone.isEmpty()) {
-                    JOptionPane.showMessageDialog(frame, "Incorrect Details.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                } else if (!email.contains("@")) {
-                    JOptionPane.showMessageDialog(frame, "Incorrect Email.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                } else if (!phone.matches("\\d+")) {
-                    JOptionPane.showMessageDialog(frame, "Incorrect Phone Number.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    guestDBManager.registerGuest(username, password, name, email, phone);
-
+                if (registerValidate.registerUser(username, password, name, email, phone)) {
                     frame.setVisible(false);
                     MainMenuPage mainMenu = new MainMenuPage();
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Invalid input. Please check your details.", "Input Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
     }
 
+    // Method to setup the reset button and its action
     private void resetButton() {
         resetButton = new JButton("Reset");
         resetButton.setBounds(275, 380, 100, 35);
@@ -159,6 +164,7 @@ public class RegisterPage {
         });
     }
 
+    // Method to setup the login button and its action
     private void loginButton() {
         loginButton = new JButton("Login");
         loginButton.setBounds(275, 440, 100, 35);
