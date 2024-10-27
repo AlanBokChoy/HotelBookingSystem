@@ -8,7 +8,6 @@ package HotelBookingSystem;
  *
  * @author alanbokchoy
  */
-
 // Class to manage user session data, using username and guestID
 public class UserSession {
 

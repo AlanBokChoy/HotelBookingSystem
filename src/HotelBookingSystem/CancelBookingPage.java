@@ -18,7 +18,6 @@ import javax.swing.JOptionPane;
  *
  * @author alanbokchoy
  */
-
 // Class represents the cancel booking of the application
 public class CancelBookingPage {
 
@@ -27,30 +26,28 @@ public class CancelBookingPage {
     private JComboBox<String> bookingComboBox;
     private JButton cancelButton;
     private JButton returnButton;
-    private DBManager guestDBManager;
+    private DBManager dbManager;
 
     // Constructor to initialize the cancel booking page
     public CancelBookingPage() {
-        guestDBManager = new DBManager();
-        frame = new JFrame("Cancel Booking Page");
-        components();
-        cancelButton();
-        returnButton();
-        loadBookings();
+        dbManager = new DBManager();
         frame();
     }
 
-    // Method to setup the main frame properties
-    private void frame() {
+    // Method to setup the frame properties
+    public void frame() {
+        frame = new JFrame("Cancel Booking Page");
         frame.setLayout(null);
         frame.setSize(600, 600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        components();
         frame.setVisible(true);
     }
 
     // Method to initialize and add components to the frame
-    private void components() {
+    public void components() {
         cancelBookingLabel = new JLabel("CANCEL BOOKING");
         cancelBookingLabel.setFont(new Font(null, Font.BOLD, 45));
         cancelBookingLabel.setBounds(95, 30, 800, 100);
@@ -60,10 +57,14 @@ public class CancelBookingPage {
 
         frame.add(cancelBookingLabel);
         frame.add(bookingComboBox);
+
+        loadBookings();
+        cancelButton();
+        returnButton();
     }
 
     // Method to setup the cancel button and its action
-    private void cancelButton() {
+    public void cancelButton() {
         cancelButton = new JButton("Cancel Booking");
         cancelButton.setBounds(200, 250, 200, 40);
 
@@ -72,24 +73,13 @@ public class CancelBookingPage {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedBooking = (String) bookingComboBox.getSelectedItem();
-                if (selectedBooking != null) {
-                    int bookingId = Integer.parseInt(selectedBooking.split(" - ")[0]);
-                    guestDBManager.cancelRoomBooking(bookingId);
-                    JOptionPane.showMessageDialog(frame, "Booking cancelled successfully!");
-                    loadBookings();
-                } else {
-                    JOptionPane.showMessageDialog(frame, "Please select a booking to cancel.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                }
-
-                frame.setVisible(false);
-                MainMenuPage mainMenu = new MainMenuPage();
+                handleCancelBooking();
             }
         });
     }
 
     // Method to setup the return button and its action
-    private void returnButton() {
+    public void returnButton() {
         returnButton = new JButton("Return");
         returnButton.setBounds(440, 500, 120, 35);
 
@@ -105,13 +95,30 @@ public class CancelBookingPage {
     }
 
     // Method to load existing bookings into the combo box
-    private void loadBookings() {
+    public void loadBookings() {
         bookingComboBox.removeAllItems();
         int guestId = UserSession.getGuestId();
-        List<String> bookings = guestDBManager.getGuestBookings(guestId);
+        List<String> bookings = dbManager.getGuestBookings(guestId);
 
+        // Add each booking to the combo box
         for (String booking : bookings) {
             bookingComboBox.addItem(booking);
         }
+    }
+
+    // Method to handle the cancellation of a selected booking
+    public void handleCancelBooking() {
+        String selectedBooking = (String) bookingComboBox.getSelectedItem();
+        if (selectedBooking != null) {
+            int bookingId = Integer.parseInt(selectedBooking.split(" - ")[0]);
+            dbManager.cancelRoomBooking(bookingId);
+            JOptionPane.showMessageDialog(frame, "Booking cancelled successfully!");
+            loadBookings();
+        } else {
+            JOptionPane.showMessageDialog(frame, "Please select a booking to cancel.", "Input Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        frame.setVisible(false);
+        MainMenuPage mainMenu = new MainMenuPage();
     }
 }

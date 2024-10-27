@@ -8,7 +8,6 @@ package HotelBookingSystem;
  *
  * @author alanbokchoy
  */
-
 // Class to handle validation when user is registering an account
 public class RegisterValidate {
 

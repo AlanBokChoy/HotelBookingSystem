@@ -21,7 +21,6 @@ import javax.swing.JTextField;
  *
  * @author alanbokchoy
  */
-
 // Class represents the create booking of the application
 public class CreateBookingPage {
 
@@ -39,35 +38,29 @@ public class CreateBookingPage {
     private JTextField checkoutField;
     private JButton confirmButton;
     private JButton returnButton;
-    private DBManager roomDBManager;
-    private DBManager guestDBManager;
+    private DBManager dbManager;
 
     // Constructor to initialize the create booking page
     public CreateBookingPage() {
-        roomDBManager = new DBManager();
-        roomDBManager.createHotelRooms();
-        frame = new JFrame("Create Booking Page");
-        components();
-        roomType();
-        roomNumber();
-        checkinDate();
-        checkoutDate();
-        confirmButton();
-        returnButton();
+        dbManager = new DBManager();
+        dbManager.createHotelRooms();
         frame();
     }
 
-    // Method to setup the main frame properties
-    private void frame() {
+    // Method to setup the frame properties
+    public void frame() {
+        frame = new JFrame("Create Booking Page");
         frame.setLayout(null);
         frame.setSize(600, 600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        components();
         frame.setVisible(true);
     }
 
     // Method to initialize and add components to the frame
-    private void components() {
+    public void components() {
         createBookingLabel = new JLabel("CREATE BOOKING");
         createBookingLabel.setFont(new Font(null, Font.BOLD, 45));
         createBookingLabel.setBounds(95, 30, 800, 100);
@@ -90,10 +83,17 @@ public class CreateBookingPage {
         frame.add(standardRoomPrice);
         frame.add(deluxeRoomPrice);
         frame.add(oakspecialRoomPrice);
+
+        roomType();
+        roomNumber();
+        checkinDate();
+        checkoutDate();
+        confirmButton();
+        returnButton();
     }
 
     // Method to set up room type selection dropdown
-    private void roomType() {
+    public void roomType() {
         roomTypeBox = new JComboBox();
         roomTypeBox.setBounds(95, 260, 200, 60);
 
@@ -106,7 +106,7 @@ public class CreateBookingPage {
     }
 
     // Method to set up room number selection dropdown
-    private void roomNumber() {
+    public void roomNumber() {
         roomNumberBox = new JComboBox();
         roomNumberBox.setBounds(305, 260, 200, 60);
 
@@ -120,7 +120,7 @@ public class CreateBookingPage {
     }
 
     // Method to set up check-in date input
-    private void checkinDate() {
+    public void checkinDate() {
         checkinLabel = new JLabel("Checkin Date:");
         checkinLabel.setFont(new Font(null, Font.BOLD, 13));
         checkinLabel.setBounds(150, 315, 250, 60);
@@ -133,7 +133,7 @@ public class CreateBookingPage {
     }
 
     // Method to set up check-out date input
-    private void checkoutDate() {
+    public void checkoutDate() {
         checkoutLabel = new JLabel("Checkout Date:");
         checkoutLabel.setFont(new Font(null, Font.BOLD, 13));
         checkoutLabel.setBounds(325, 315, 250, 60);
@@ -146,45 +146,14 @@ public class CreateBookingPage {
     }
 
     // Method to setup the confirm button and its action
-    private void confirmButton() {
+    public void confirmButton() {
         confirmButton = new JButton("Confirm");
         confirmButton.setBounds(225, 430, 150, 40);
-        
+
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedRoomType = (String) roomTypeBox.getSelectedItem();
-                String selectedRoomNumber = (String) roomNumberBox.getSelectedItem();
-                String checkinDate = checkinField.getText();
-                String checkoutDate = checkoutField.getText();
-
-                // Validate that a room type and number are selected
-                if (selectedRoomType.equals("Select Room Type") || selectedRoomNumber.equals("Select Room Number")) {
-                    JOptionPane.showMessageDialog(frame, "Please select a valid room type and number.");
-                    return;
-                }
-
-                // Validate the check-in and check-out dates
-                String validationMessage = validateDates(checkinDate, checkoutDate);
-                if (validationMessage != null) {
-                    JOptionPane.showMessageDialog(frame, validationMessage);
-                    return;
-                }
-
-                // Check if the selected room is available for the specified dates
-                boolean isAvailable = roomDBManager.isRoomAvailable(selectedRoomNumber, selectedRoomType, checkinDate, checkoutDate);
-                if (!isAvailable) {
-                    JOptionPane.showMessageDialog(frame, "Room not available for the selected dates!");
-                    return;
-                }
-
-                // Add the room booking to the database
-                int guestId = UserSession.getGuestId();
-                roomDBManager.addRoom(selectedRoomType, selectedRoomNumber, getRoomPrice(selectedRoomType), checkinDate, checkoutDate, "Booked", guestId);
-                JOptionPane.showMessageDialog(frame, "Room booked successfully!");
-
-                frame.setVisible(false);
-                MainMenuPage mainMenu = new MainMenuPage();
+                handleBooking();
             }
         });
 
@@ -192,7 +161,7 @@ public class CreateBookingPage {
     }
 
     // Method to setup the return button and its action
-    private void returnButton() {
+    public void returnButton() {
         returnButton = new JButton("Return");
         returnButton.setBounds(440, 500, 120, 35);
 
@@ -208,7 +177,7 @@ public class CreateBookingPage {
     }
 
     // Method to get the price of a room based on its type
-    private String getRoomPrice(String roomType) {
+    public String getRoomPrice(String roomType) {
         switch (roomType) {
             case "Standard Room":
                 return "$100";
@@ -222,7 +191,7 @@ public class CreateBookingPage {
     }
 
     // Method to validate the check-in and check-out dates
-    private String validateDates(String checkinDate, String checkoutDate) {
+    public String validateDates(String checkinDate, String checkoutDate) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             sdf.setLenient(false);
@@ -236,5 +205,41 @@ public class CreateBookingPage {
             return "Please enter valid dates in the format DD/MM/YYYY.";
         }
         return null;
+    }
+
+    // Method to validate room booking
+    public void handleBooking() {
+        String selectedRoomType = (String) roomTypeBox.getSelectedItem();
+        String selectedRoomNumber = (String) roomNumberBox.getSelectedItem();
+        String checkinDate = checkinField.getText();
+        String checkoutDate = checkoutField.getText();
+
+        // Validate that a room type and number are selected
+        if (selectedRoomType.equals("Select Room Type") || selectedRoomNumber.equals("Select Room Number")) {
+            JOptionPane.showMessageDialog(frame, "Please select a valid room type and number.");
+            return;
+        }
+
+        // Validate the check-in and check-out dates
+        String validationMessage = validateDates(checkinDate, checkoutDate);
+        if (validationMessage != null) {
+            JOptionPane.showMessageDialog(frame, validationMessage);
+            return;
+        }
+
+        // Check if the selected room is available for the specified dates
+        boolean isAvailable = dbManager.isRoomAvailable(selectedRoomNumber, selectedRoomType, checkinDate, checkoutDate);
+        if (!isAvailable) {
+            JOptionPane.showMessageDialog(frame, "Room not available for the selected dates!");
+            return;
+        }
+
+        // Add the room booking to the database
+        int guestId = UserSession.getGuestId();
+        dbManager.addRoom(selectedRoomType, selectedRoomNumber, getRoomPrice(selectedRoomType), checkinDate, checkoutDate, "Booked", guestId);
+        JOptionPane.showMessageDialog(frame, "Room booked successfully!");
+
+        frame.setVisible(false);
+        MainMenuPage mainMenu = new MainMenuPage();
     }
 }

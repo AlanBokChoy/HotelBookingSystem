@@ -18,7 +18,6 @@ import javax.swing.JTextField;
  *
  * @author alanbokchoy
  */
-
 // Class represents the register page of the application
 public class RegisterPage {
 
@@ -46,23 +45,21 @@ public class RegisterPage {
     }
 
     // Constructor to initialize the register page
-    public RegisterPage(DBManager guestDBManager) {
-        registerValidate = new RegisterValidate(guestDBManager);
-        guestDBManager.createGuestDatabase();
-        frame = new JFrame("Register Page");
-        components();
-        registerButton();
-        resetButton();
-        loginButton();
+    public RegisterPage(DBManager dbManager) {
+        registerValidate = new RegisterValidate(dbManager);
+        dbManager.createGuestDatabase();
         frame();
     }
 
-    // Method to setup the main frame properties
+    // Method to setup the frame properties
     private void frame() {
+        frame = new JFrame("Register Page");
         frame.setLayout(null);
         frame.setSize(500, 600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        components();
         frame.setVisible(true);
     }
 
@@ -117,6 +114,10 @@ public class RegisterPage {
         frame.add(nameField);
         frame.add(emailField);
         frame.add(phonenumberField);
+
+        registerButton();
+        resetButton();
+        loginButton();
     }
 
     // Method to setup the register button and its action

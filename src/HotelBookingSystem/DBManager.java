@@ -16,7 +16,6 @@ import java.util.List;
  *
  * @author alanbokchoy
  */
-
 // Class represents the database management of the application
 public class DBManager {
 
@@ -24,6 +23,24 @@ public class DBManager {
     private static final String PASSWORD = "guest";
     private static final String URL = "jdbc:derby://localhost:1527/GuestDB;create=true";
     private Connection conn;
+
+    private static final String CREATE_GUEST_TABLE = "CREATE TABLE GuestDB ("
+            + "id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 0, INCREMENT BY 1), "
+            + "username VARCHAR(50), "
+            + "password VARCHAR(50), "
+            + "name VARCHAR(50), "
+            + "email VARCHAR(50), "
+            + "phone INTEGER)";
+
+    private static final String CREATE_ROOM_TABLE = "CREATE TABLE RoomDB ("
+            + "id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 0, INCREMENT BY 1), "
+            + "room_type VARCHAR(50), "
+            + "room_number VARCHAR(10), "
+            + "room_price VARCHAR(10), "
+            + "checkin_date VARCHAR(10), "
+            + "checkout_date VARCHAR(10), "
+            + "status VARCHAR(20), "
+            + "guest_id INT)";
 
     // Constructor that establishes a connection to the database upon creation
     public DBManager() {
@@ -50,19 +67,13 @@ public class DBManager {
         try {
             conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             if (conn != null) {
-                // Check if the table already exists
+                // Checks if the table already exists
                 String checkTableSql = "SELECT * FROM GuestDB";
                 try {
                     conn.createStatement().execute(checkTableSql);
                     System.out.println("Guest database already exists.");
                 } catch (SQLException e) {
-                    String sql = "CREATE TABLE GuestDB ("
-                            + "id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 0, INCREMENT BY 1), "
-                            + "username VARCHAR(50), "
-                            + "password VARCHAR(50), "
-                            + "name VARCHAR(50), "
-                            + "email VARCHAR(50), "
-                            + "phone INTEGER)";
+                    String sql = CREATE_GUEST_TABLE;
                     conn.createStatement().execute(sql);
                     System.out.println("Guest database created successfully.");
                 }
@@ -116,15 +127,7 @@ public class DBManager {
                     conn.createStatement().execute(checkTableSql);
                     System.out.println("Room database already exists.");
                 } catch (SQLException e) {
-                    String sql = "CREATE TABLE RoomDB ("
-                            + "id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 0, INCREMENT BY 1), "
-                            + "room_type VARCHAR(50), "
-                            + "room_number VARCHAR(10), "
-                            + "room_price VARCHAR(10), "
-                            + "checkin_date VARCHAR(10), "
-                            + "checkout_date VARCHAR(10), "
-                            + "status VARCHAR(20),"
-                            + "guest_id INT)";
+                    String sql = CREATE_ROOM_TABLE;
                     conn.createStatement().execute(sql);
                     System.out.println("Room database created successfully.");
                 }
@@ -220,21 +223,6 @@ public class DBManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    // Method to get the guest email based on guestID
-    public String getGuestUsername(int guestId) {
-        String sql = "SELECT username FROM GuestDB WHERE id = ?";
-        try ( PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, guestId);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getString("username");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
     }
 
     // Method to get the guest name based on guestID

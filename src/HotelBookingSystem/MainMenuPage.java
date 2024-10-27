@@ -15,7 +15,6 @@ import javax.swing.JLabel;
  *
  * @author alanbokchoy
  */
-
 // Class represents the main menu interface of the application
 public class MainMenuPage {
 
@@ -29,18 +28,18 @@ public class MainMenuPage {
 
     // Constructor to initialize the main menu page
     public MainMenuPage() {
-        frame = new JFrame("Main Menu Page");
-        components();
-        createButtons();
         frame();
     }
 
-    // Method to setup the main frame properties
+    // Method to setup the frame properties
     private void frame() {
+        frame = new JFrame("Main Menu Page");
         frame.setLayout(null);
         frame.setSize(600, 600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        components();
         frame.setVisible(true);
     }
 
@@ -51,6 +50,8 @@ public class MainMenuPage {
         mainMenuLabel.setBounds(165, 30, 300, 100);
 
         frame.add(mainMenuLabel);
+
+        createButtons();
     }
 
     // Method to create all buttons and add them to the frame

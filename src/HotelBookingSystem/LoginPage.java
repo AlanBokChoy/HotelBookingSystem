@@ -18,7 +18,6 @@ import javax.swing.JTextField;
  *
  * @author alanbokchoy
  */
-
 // Class represents the login page of the application
 public class LoginPage {
 
@@ -33,25 +32,23 @@ public class LoginPage {
     private JButton loginButton;
     private JButton resetButton;
     private JButton registerButton;
-    private DBManager guestDBManager;
+    private DBManager dbManager;
 
     // Constructor to initialize the login page
     public LoginPage() {
-        guestDBManager = new DBManager();
-        frame = new JFrame("Login Page");
-        components();
-        loginButton();
-        resetButton();
-        registerButton();
+        dbManager = new DBManager();
         frame();
     }
 
-    // Method to setup the main frame properties
+    // Method to setup the frame properties
     private void frame() {
+        frame = new JFrame("Login Page");
         frame.setLayout(null);
         frame.setSize(500, 500);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        components();
         frame.setVisible(true);
     }
 
@@ -86,6 +83,10 @@ public class LoginPage {
         frame.add(messageLabel);
         frame.add(usernameField);
         frame.add(passwordField);
+
+        loginButton();
+        resetButton();
+        registerButton();
     }
 
     // Method to setup the login button and its action
@@ -101,8 +102,8 @@ public class LoginPage {
                 String username = usernameField.getText();
                 String password = new String(passwordField.getPassword());
 
-                if (guestDBManager.verifyCredentials(username, password)) {
-                    int guestId = guestDBManager.getGuestId(username);
+                if (dbManager.verifyCredentials(username, password)) {
+                    int guestId = dbManager.getGuestId(username);
                     UserSession.setUsername(username);
                     UserSession.setGuestId(guestId);
 

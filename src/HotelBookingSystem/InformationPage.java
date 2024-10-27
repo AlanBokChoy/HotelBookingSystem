@@ -34,18 +34,18 @@ public class InformationPage {
 
     // Constructor to initialize the information page
     public InformationPage() {
-        frame = new JFrame("Information Page");
-        components();
-        returnButton();
         frame();
     }
 
-    // Method to setup the main frame properties
+    // Method to setup the frame properties
     private void frame() {
+        frame = new JFrame("Information Page");
         frame.setLayout(null);
         frame.setSize(600, 600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        components();
         frame.setVisible(true);
     }
 
@@ -106,6 +106,8 @@ public class InformationPage {
         frame.add(hotelPhonenumberLabel);
         frame.add(hotelEmailLabel);
         frame.add(hotelAddressLabel);
+
+        returnButton();
     }
 
     // Method to setup the return button and its action
